@@ -19,14 +19,18 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.font-display {
-  font-family: var(--font-bodoni), "Didot", "Bodoni MT", Georgia, serif;
+.font-thin-head {
+  font-family: var(--font-thin), "Helvetica Neue", Arial, sans-serif;
 }
 
 @keyframes marquee-left {
@@ -40,4 +44,70 @@ body {
 
 .animate-marquee {
   animation: marquee-left 60s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-avatar {
+    animation: none;
+  }
+}
+
+@keyframes review-avatar-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -4px;
+  }
+}
+
+.review-avatar {
+  animation: review-avatar-float 3s ease-in-out infinite;
+}
+
+.review-avatar:hover,
+.review-avatar:active {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-avatar {
+    animation: none;
+  }
+}
+
+@keyframes lightbox-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.lightbox-pop {
+  animation: lightbox-pop 0.3s cubic-bezier(0.2, 0.7, 0.2, 1.2) backwards;
+}
+
+@keyframes lightbox-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lightbox-fade {
+  animation: lightbox-fade 0.25s ease-out backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-pop,
+  .lightbox-fade {
+    animation: none;
+  }
 }
