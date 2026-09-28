@@ -33,6 +33,14 @@ body {
   font-family: var(--font-thin), "Helvetica Neue", Arial, sans-serif;
 }
 
+.font-didone-head {
+  font-family: var(--font-didone), "Bodoni MT", Didot, Georgia, serif;
+}
+
+.font-condensed-head {
+  font-family: var(--font-condensed), "Arial Narrow", Impact, sans-serif;
+}
+
 @keyframes marquee-left {
   from {
     transform: translateX(0);

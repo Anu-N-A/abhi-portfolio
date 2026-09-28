@@ -24,17 +24,30 @@ export default function Home() {
       <section id="hero" className="relative bg-black text-white overflow-hidden">
         {/* warm dark background */}
         <div className="absolute inset-0">
+          <Image
+            src="/pexels-asim-razan-32997.jpg"
+            alt=""
+            fill
+            priority
+            quality={85}
+            className="object-cover opacity-50"
+            sizes="100vw"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black" />
         </div>
 
-        <div className="relative z-10 pt-14 md:pt-20 pb-0 px-5 text-center">
-          <h1 className="font-thin-head text-[42px] leading-[1.1] md:text-7xl font-extralight tracking-wide">
-            Capturing moments
+        <div className="relative z-10 pt-20 md:pt-28 pb-0 px-5 text-center">
+          <h1 className="font-condensed-head text-[52px] leading-[0.95] md:text-8xl tracking-wide">
+            CAPTURING MOMENTS
             <br />
-            that last forever...
+            <span className="text-white/50">THAT LAST FOREVER...</span>
           </h1>
+          <p className="mt-6 text-base md:text-xl font-light italic tracking-wide text-white/60 max-w-2xl mx-auto">
+            Timeless weddings, heartfelt portraits & unforgettable events —
+            crafted with light, care and soul.
+          </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#work"
               className="inline-block bg-white text-black text-[14px] font-semibold tracking-wide px-10 py-4 rounded-[3px] [@media(hover:hover)]:hover:bg-[#D4AF37] transition-colors"
@@ -50,12 +63,12 @@ export default function Home() {
           </div>
 
           {/* Template cards — Squarespace style, your photos */}
-          <div className="mt-20 md:mt-24 flex items-end justify-center gap-4 md:gap-6 max-w-[1600px] mx-auto">
+          <div className="mt-32 md:mt-40 flex items-end justify-center gap-6 md:gap-10 max-w-[1600px] mx-auto">
             {/* LEFT CARD */}
             <div className="hidden sm:block w-[30%] shrink-0 -rotate-3 translate-y-10 rounded-lg overflow-hidden border border-white/10 shadow-2xl shadow-black/60 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/60 [@media(hover:hover)]:hover:shadow-[0_0_36px_rgba(212,175,55,0.55)] active:border-[#D4AF37]/60">
               <div className="relative h-[300px] md:h-[420px]">
                 <Image
-                  src="/portraits/pexels-bertellifotografia-13871691.jpg"
+                  src="/wedding/upper card cover.jpg"
                   alt=""
                   fill
                   quality={85}
@@ -70,7 +83,7 @@ export default function Home() {
               <div className="grid grid-cols-2 h-[340px] md:h-[460px]">
                 <div className="relative">
                   <Image
-                    src="/portraits/pexels-chris-wade-ntezicimpa-564856410-29002892.jpg"
+                    src="/events/upper card cover.jpg"
                     alt=""
                     fill
                     priority
@@ -81,7 +94,7 @@ export default function Home() {
                 </div>
                 <div className="relative">
                   <Image
-                    src="/portraits/pexels-expressivestanley-1487077.jpg"
+                    src="/nature/upper card cover.jpg"
                     alt=""
                     fill
                     priority
@@ -98,7 +111,7 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-1 h-[300px] md:h-[420px]">
                 <div className="relative rounded overflow-hidden">
                   <Image
-                    src="/portraits/pexels-frank-minjarez-333886454-35568009.jpg"
+                    src="/wedding/upper card cover (2).jpg"
                     alt=""
                     fill
                     quality={85}
@@ -125,8 +138,69 @@ export default function Home() {
         <div className="relative h-10 bg-gradient-to-t from-black to-transparent -mt-10 z-20" />
       </section>
 
+      {/* ---------- PHOTOGRAPHY BANNER ---------- */}
+      <section className="bg-black overflow-hidden pt-6 md:pt-10 pb-10 md:pb-14">
+        <h2
+          aria-hidden
+          className="whitespace-nowrap text-center font-extrabold leading-none tracking-tight text-[11vw] scale-y-[1.85] -translate-y-4 select-none"
+        >
+          <span className="text-[#8f8f8f]">PHOTO</span>
+          <span
+            className="text-transparent"
+            style={{ WebkitTextStroke: "2px rgba(255,255,255,0.9)" }}
+          >
+            GRAPHY
+          </span>
+        </h2>
+        <div className="mx-auto -mt-[4vw] flex max-w-[1400px] items-start justify-center gap-3 md:gap-5 px-4">
+          {[
+            {
+              src: "/portraits/pexels-laurachouette-28781680.jpg",
+              tilt: "-rotate-3 translate-y-6",
+              hide: "",
+            },
+            {
+              src: "/portraits/pexels-beccacorreiaph-31419666.jpg",
+              tilt: "rotate-0",
+              hide: "",
+            },
+            {
+              src: "/portraits/pexels-eyesofmuk-32544082.jpg",
+              tilt: "rotate-2",
+              hide: "hidden sm:block",
+            },
+            {
+              src: "/portraits/pexels-tanya-gupta-2440711-4066947.jpg",
+              tilt: "-rotate-2 translate-y-4",
+              hide: "hidden sm:block",
+            },
+            {
+              src: "/portraits/pexels-suguna-14090740.jpg",
+              tilt: "rotate-3 translate-y-8",
+              hide: "hidden md:block",
+            },
+          ].map(({ src, tilt, hide }) => (
+            <div
+              key={src}
+              className={`${tilt} ${hide} relative w-[46%] sm:w-[30%] md:w-[19%] shrink-0 overflow-hidden rounded-lg border border-white/10 shadow-2xl shadow-black/60 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/60 [@media(hover:hover)]:hover:shadow-[0_0_36px_rgba(212,175,55,0.55)] active:border-[#D4AF37]/60`}
+            >
+              <div className="relative h-[280px] md:h-[400px]">
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  quality={85}
+                  className="object-cover"
+                  sizes="(max-width: 640px) 46vw, (max-width: 768px) 30vw, 19vw"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ---------- ABOUT ---------- */}
-      <section id="about" className="bg-black px-5 md:px-8 py-20 md:py-28 overflow-hidden">
+      <section id="about" className="bg-black px-5 md:px-8 py-12 md:py-16 overflow-hidden">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 items-center">
           {/* LEFT — text, reference editorial style, same content */}
           <div className="text-left">
@@ -213,13 +287,13 @@ export default function Home() {
             href="#work"
             className="text-[12px] font-light uppercase tracking-[0.2em] text-white/50 [@media(hover:hover)]:hover:text-[#E9C46A] transition-colors"
           >
-            View all projects →
+            View all projects
           </a>
         </div>
       </section>
 
       {/* ---------- SERVICES ---------- */}
-      <section id="services" className="bg-black px-5 md:px-8 py-20 md:py-28">
+      <section id="services" className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide text-center">
             SERVICES
@@ -254,15 +328,56 @@ export default function Home() {
                   {desc}
                 </p>
                 <span className="mt-6 inline-block text-sm font-light tracking-wide text-white/40 group-hover:text-[#E9C46A] transition-colors">
-                  View work →
+                  View work
                 </span>
               </a>
             ))}
           </div>
         </div>
       </section>
+      {/* ---------- FAVORITE TOOLS ---------- */}
+      <section id="tools" className="bg-black px-5 md:px-8 py-12 md:py-16">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-[12px] font-light tracking-[0.25em] text-[#E9C46A]">
+            ✦ My Favorite Tools
+          </p>
+          <h2 className="mt-3 font-thin-head text-4xl md:text-6xl font-extralight tracking-wide">
+            <span className="text-[#D4AF37]">Exploring the Tools</span>
+            <br />
+            <span className="text-white">Behind My Designs</span>
+          </h2>
+          <div className="mt-12 md:mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
+            {[
+              { abbr: "Lr", name: "Lightroom", pct: "95%", color: "#31A8FF" },
+              { abbr: "Ps", name: "Photoshop", pct: "92%", color: "#7AB8FF" },
+              { abbr: "Pr", name: "Premiere Pro", pct: "88%", color: "#9999FF" },
+              { abbr: "Ae", name: "After Effects", pct: "85%", color: "#D291FF" },
+              { abbr: "Ai", name: "Illustrator", pct: "90%", color: "#FF9A00" },
+              { abbr: "Au", name: "Audition", pct: "82%", color: "#FF5544" },
+            ].map(({ abbr, name, pct, color }) => (
+              <div
+                key={name}
+                className="rounded-[2.5rem] border border-white/10 bg-white/[0.03] px-4 py-8 transition-all duration-300 [@media(hover:hover)]:hover:-translate-y-2 [@media(hover:hover)]:hover:border-[#D4AF37]/60 [@media(hover:hover)]:hover:shadow-[0_0_32px_rgba(212,175,55,0.5)] active:-translate-y-2 active:border-[#D4AF37]/60"
+              >
+                <span
+                  className="mx-auto flex h-11 w-11 items-center justify-center rounded-lg text-sm font-bold"
+                  style={{ backgroundColor: `${color}22`, color }}
+                >
+                  {abbr}
+                </span>
+                <p className="mt-4 text-xl font-bold tracking-tight text-white">
+                  {pct}
+                </p>
+                <p className="mt-1 text-[11px] font-light tracking-widest text-white/50">
+                  {name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       {/* ---------- EXPLORE MY WORK ---------- */}
-      <section id="work" className="bg-black px-5 md:px-8 py-20 md:py-28">
+      <section id="work" className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide text-center">
             EXPLORE MY WORK
@@ -280,14 +395,13 @@ export default function Home() {
                 href={`/work/${slug}`}
                 className="group flex items-center justify-between border-b border-white/10 py-6 md:py-8 px-2 [@media(hover:hover)]:hover:bg-[#E9C46A]/[0.05] transition-colors"
               >
-                <span className="flex items-baseline gap-4 md:gap-6">
-                  <span className="text-xs font-light text-white/30">0{i + 1}</span>
+                <span className="flex items-center gap-4 md:gap-6">
+                  <span className="font-serif text-6xl md:text-8xl font-light italic leading-none text-white/70 transition-colors group-hover:text-[#E9C46A]">
+                    0{i + 1}
+                  </span>
                   <span className="font-thin-head text-2xl md:text-4xl font-extralight tracking-wide text-white/70 group-hover:text-[#E9C46A] transition-colors">
                     {name}
                   </span>
-                </span>
-                <span className="text-xl text-white/30 transition-all group-hover:translate-x-1 group-hover:text-[#E9C46A]">
-                  →
                 </span>
               </a>
             ))}
@@ -295,12 +409,11 @@ export default function Home() {
         </div>
       </section>
       {/* ---------- TESTIMONIALS ---------- */}
-      <section id="testimonials" className="bg-black px-5 md:px-8 py-20 md:py-28">
+      <section id="testimonials" className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide text-center">
             TESTIMONIALS
           </h2>
-          <p className="mt-4 text-center text-white/30 text-xl font-light">↓</p>
           {/* stats + client strip like reference */}
           <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-8 rounded-2xl border border-white/10 bg-white/[0.03] px-8 md:px-12 py-8">
             <div className="flex items-center gap-10 md:gap-14">
@@ -385,20 +498,55 @@ export default function Home() {
       </section>
 
       {/* ---------- LET'S WORK TOGETHER ---------- */}
-      <section id="contact" className="bg-black px-5 md:px-8 py-20 md:py-28">
+      <section className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide">
             LET&apos;S WORK TOGETHER
           </h2>
           <div className="mt-10">
             <a
-              href="mailto:hello@example.com"
+              href="#contact"
               className="inline-block bg-white text-black text-[14px] font-semibold tracking-wide px-10 py-4 rounded-[3px] [@media(hover:hover)]:hover:bg-[#D4AF37] transition-colors"
             >
               SEND AN INQUIRY
             </a>
           </div>
-          <p className="mt-8 text-white/30 text-xl font-light">↓</p>
+        </div>
+      </section>
+
+      {/* ---------- CONTACT ---------- */}
+      <section id="contact" className="bg-black px-5 md:px-8 py-12 md:py-16">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-[12px] font-light tracking-[0.25em] text-[#E9C46A]">
+            ✦ Get In Touch
+          </p>
+          <h2 className="mt-3 font-thin-head text-4xl md:text-6xl font-extralight tracking-wide">
+            CONTACT
+          </h2>
+          <div className="mt-10 md:mt-12 flex flex-col gap-4">
+            {[
+              { label: "Email", value: "hello@example.com", href: "mailto:hello@example.com" },
+              { label: "Phone", value: "+91 00000 00000", href: "tel:+910000000000" },
+              { label: "WhatsApp", value: "Chat with me", href: "#" },
+              { label: "Instagram", value: "Follow my work", href: "#" },
+            ].map(({ label, value, href }) => (
+              <a
+                key={label}
+                href={href}
+                className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-6 md:px-8 py-5 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/50 [@media(hover:hover)]:hover:bg-[#D4AF37]/[0.07] active:border-[#D4AF37]/50"
+              >
+                <span className="text-[12px] font-light tracking-[0.25em] text-white/40 group-hover:text-[#E9C46A] transition-colors">
+                  {label.toUpperCase()}
+                </span>
+                <span className="text-sm md:text-base font-light tracking-wide text-white/80 group-hover:text-white transition-colors">
+                  {value}
+                </span>
+              </a>
+            ))}
+          </div>
+          <p className="mt-8 text-sm font-light tracking-widest text-white/40">
+            Kannur, Kerala
+          </p>
         </div>
       </section>
 
