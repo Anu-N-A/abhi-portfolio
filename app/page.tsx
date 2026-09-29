@@ -50,6 +50,7 @@ export default function Home() {
           {!scrolled ? (
             <div className="hidden lg:flex items-center gap-8 text-[13px] font-light tracking-[0.2em]">
               {[
+                { label: "ABOUT", href: "#about" },
                 { label: "WORK", href: "#work" },
                 { label: "SERVICES", href: "#services" },
                 { label: "TOOLS", href: "#tools" },
@@ -99,6 +100,7 @@ export default function Home() {
         {menuOpen && !scrolled && (
           <div className="lg:hidden border-t border-white/10 px-6 py-6 flex flex-col gap-5 text-sm font-light tracking-[0.2em] bg-black">
             {[
+              { label: "ABOUT", href: "#about" },
               { label: "WORK", href: "#work" },
               { label: "SERVICES", href: "#services" },
               { label: "TOOLS", href: "#tools" },
@@ -299,28 +301,25 @@ export default function Home() {
 
       {/* ---------- ABOUT ---------- */}
       <section id="about" data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16 overflow-hidden">
-        <div className="max-w-3xl mx-auto">
-          {/* text, reference editorial style, same content */}
-          <div className="text-center">
-            <p className="font-serif italic text-2xl md:text-3xl font-light tracking-wide text-[#e8ded0]">
-              About
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 items-center">
+          {/* LEFT — text, reference editorial style, same content */}
+          <div className="text-left">
+            <p className="text-[13px] md:text-sm font-semibold uppercase tracking-[0.2em] text-[#E9C46A]">
+              About the photographer
             </p>
-            <h2 className="mt-1 font-sans font-black uppercase leading-[0.9] tracking-tight text-[#e8ded0] text-6xl md:text-8xl">
-              Abhijith
-              <br />
-              P.V.
+            <h2 className="mt-3 font-thin-head text-5xl md:text-7xl font-medium tracking-tight text-white">
+              Behind the Lens.
             </h2>
-            <div className="mt-6 flex items-center justify-center gap-3">
-              <span className="text-[#e8ded0]/70 text-sm">✦</span>
-              <span className="h-px w-40 bg-white/20" />
-            </div>
+            <p className="mt-4 font-serif italic text-xl md:text-2xl font-light text-[#E9C46A]/90">
+              Stories, light &amp; emotion.
+            </p>
             <p className="mt-5 text-[12px] md:text-[13px] font-semibold uppercase tracking-[0.18em] leading-relaxed text-white/80">
               Photographer · Visual Creative · Designer
             </p>
             <p className="mt-4 font-serif italic text-lg md:text-xl font-light text-white/80">
               “Turning ideas, moments, and perspectives into visual stories.”
             </p>
-            <div className="mt-6 max-w-xl mx-auto space-y-5 text-[13px] md:text-sm font-light leading-relaxed text-white/60">
+            <div className="mt-6 max-w-xl space-y-5 text-[13px] md:text-sm font-light leading-relaxed text-white/60">
               <p>
                 I’m Abhijith, a visual creative from Kannur with a passion for
                 photography, design, and storytelling.
@@ -344,23 +343,31 @@ export default function Home() {
             <p className="mt-8 font-serif italic text-xl text-white/40">
               Abhijith
             </p>
+            <a
+              href="#contact"
+              className="mt-8 inline-block rounded-full bg-white/[0.07] border border-white/15 text-white text-[13px] font-semibold tracking-[0.15em] px-8 py-3.5 transition-all duration-300 [@media(hover:hover)]:hover:bg-[#D4AF37] [@media(hover:hover)]:hover:text-black [@media(hover:hover)]:hover:border-[#D4AF37] active:bg-[#D4AF37] active:text-black"
+            >
+              LET&apos;S WORK TOGETHER ↗
+            </a>
           </div>
-          <div className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/60 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/60 [@media(hover:hover)]:hover:shadow-[0_0_36px_rgba(212,175,55,0.55)] active:border-[#D4AF37]/60">
-            <div className="relative h-[300px] md:h-[420px]">
+
+          {/* RIGHT — portrait photo */}
+          <div className="relative mx-auto w-full max-w-[420px]">
+            <div className="relative mx-auto h-[480px] md:h-[560px] w-full max-w-[340px] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/60 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/60 [@media(hover:hover)]:hover:shadow-[0_0_36px_rgba(212,175,55,0.55)] active:border-[#D4AF37]/60">
               <Image
                 src="/about-camera.jpg.jpg"
                 alt="Abhijith holding his camera"
                 fill
                 quality={85}
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 896px"
+                sizes="(max-width: 768px) 100vw, 340px"
               />
             </div>
           </div>
         </div>
 
         {/* bottom strip like reference */}
-        <div className="max-w-6xl mx-auto mt-14 flex items-center justify-between bg-[#111] border border-white/10 rounded-sm px-5 py-4">
+        <div className="max-w-6xl mx-auto mt-14 flex flex-wrap items-center justify-between gap-3 bg-[#111] border border-white/10 rounded-sm px-5 py-4">
           <span className="text-[12px] font-semibold uppercase tracking-[0.2em] text-white/70">
             Selected Work
           </span>
@@ -458,12 +465,26 @@ export default function Home() {
         </div>
       </section>
       {/* ---------- EXPLORE MY WORK ---------- */}
-      <section id="work" data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16">
-        <div className="max-w-5xl mx-auto">
+      <section id="work" data-reveal className="relative bg-black px-5 md:px-8 py-12 md:py-16 overflow-hidden">
+        {/* photo backdrop for the glass to blend with */}
+        <div className="absolute inset-0">
+          <Image
+            src="/portraits/pexels-bertellifotografia-13871691.jpg"
+            alt=""
+            fill
+            quality={80}
+            className="object-cover opacity-25"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/55 to-black" />
+        </div>
+        {/* soft glow for the glass to catch */}
+        <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[720px] max-w-[120vw] -translate-x-1/2 -translate-y-1/2 rounded-[100%] bg-[#D4AF37]/[0.12] blur-[120px]" />
+        <div className="relative max-w-5xl mx-auto">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide text-center">
             EXPLORE MY WORK
           </h2>
-          <div className="mt-12 md:mt-16 border-t border-white/10">
+          <div className="mt-12 md:mt-16 rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] backdrop-blur-xl p-3 md:p-5 shadow-[0_8px_40px_rgba(0,0,0,0.45)]">
             {[
               { name: "Wedding", slug: "wedding" },
               { name: "Portrait", slug: "portrait" },
@@ -474,7 +495,7 @@ export default function Home() {
               <a
                 key={slug}
                 href={`/work/${slug}`}
-                className="group flex items-center justify-between border-b border-white/10 py-6 md:py-8 px-2 [@media(hover:hover)]:hover:bg-[#E9C46A]/[0.05] transition-colors"
+                className="group flex items-center justify-between rounded-2xl border border-transparent px-4 md:px-6 py-6 md:py-7 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/40 [@media(hover:hover)]:hover:bg-[#D4AF37]/[0.06] [@media(hover:hover)]:hover:shadow-[0_0_28px_rgba(212,175,55,0.25)] active:border-[#D4AF37]/40 active:bg-[#D4AF37]/[0.06]"
               >
                 <span className="flex items-center gap-4 md:gap-6">
                   <span className="font-serif text-5xl sm:text-6xl md:text-8xl font-light italic leading-none text-white/70 transition-colors group-hover:text-[#E9C46A]">
