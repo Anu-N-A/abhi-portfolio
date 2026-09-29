@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LightboxGallery from "../../components/LightboxGallery";
@@ -44,26 +45,14 @@ export default async function CategoryPage({
     <div className="min-h-screen bg-black text-white">
       <header className="border-b border-white/10">
         <nav className="max-w-6xl mx-auto flex items-center justify-between px-5 md:px-8 h-[72px]">
-          <Link
-            href="/"
-            className="flex items-center gap-2 tracking-[0.18em] font-semibold text-lg"
-          >
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                d="M7 17L17 7M9 7h8v8M7 7l3 3M17 17l-3-3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <rect x="3" y="3" width="18" height="18" rx="4" />
-            </svg>
-            SQUARESPACE
+          <Link href="/" className="flex items-center" aria-label="Home">
+            <Image
+              src="/logo.png"
+              alt="AJ Photography logo"
+              width={44}
+              height={44}
+              className="h-11 w-11 rounded-full object-cover"
+            />
           </Link>
           <Link
             href="/#work"

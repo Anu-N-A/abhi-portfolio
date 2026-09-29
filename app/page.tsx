@@ -1,23 +1,121 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import ScrollEffects from "./components/ScrollEffects";
 
 export default function Home() {
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const past = window.scrollY > 80;
+      setScrolled(past);
+      if (past) setMenuOpen(false);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Website inquiry from ${contactName}`);
+    const body = encodeURIComponent(`${contactMessage}\n\n— ${contactName} (${contactEmail})`);
+    window.location.href = `mailto:hello@example.com?subject=${subject}&body=${body}`;
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white overflow-x-clip">
+      <ScrollEffects />
       {/* ---------- NAVBAR ---------- */}
       <header className="sticky top-0 z-50 bg-black border-b border-white/10">
         <nav className="max-w-[1440px] mx-auto flex items-center justify-between px-5 md:px-8 h-[72px]">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 tracking-[0.18em] font-semibold text-lg">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path d="M7 17L17 7M9 7h8v8M7 7l3 3M17 17l-3-3" strokeLinecap="round" strokeLinejoin="round" />
-              <rect x="3" y="3" width="18" height="18" rx="4" />
-            </svg>
-            SQUARESPACE
+          <a href="#" className="flex items-center" aria-label="Home">
+            <Image
+              src="/logo.png"
+              alt="AJ Photography logo"
+              width={44}
+              height={44}
+              className="h-11 w-11 rounded-full object-cover"
+              priority
+            />
           </a>
+          {/* Right links — full menu at the top, HOME only when scrolled */}
+          {!scrolled ? (
+            <div className="hidden lg:flex items-center gap-8 text-[13px] font-light tracking-[0.2em]">
+              {[
+                { label: "WORK", href: "#work" },
+                { label: "SERVICES", href: "#services" },
+                { label: "TOOLS", href: "#tools" },
+                { label: "REVIEWS", href: "#testimonials" },
+                { label: "CONTACT", href: "#contact" },
+              ].map(({ label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  className="text-white/60 [@media(hover:hover)]:hover:text-[#E9C46A] transition-colors"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          ) : (
+            <a
+              href="#hero"
+              className="hidden lg:block text-[13px] font-light tracking-[0.2em] text-white/60 [@media(hover:hover)]:hover:text-[#E9C46A] transition-colors"
+            >
+              HOME
+            </a>
+          )}
 
+          {/* Mobile hamburger — visible only at the top */}
+          {!scrolled ? (
+            <button
+              className="lg:hidden p-2"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                {menuOpen ? <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" /> : <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />}
+              </svg>
+            </button>
+          ) : (
+            <a
+              href="#hero"
+              className="lg:hidden text-sm font-light tracking-[0.2em] text-white/70 active:text-[#E9C46A]"
+            >
+              HOME
+            </a>
+          )}
         </nav>
+
+        {/* Mobile menu */}
+        {menuOpen && !scrolled && (
+          <div className="lg:hidden border-t border-white/10 px-6 py-6 flex flex-col gap-5 text-sm font-light tracking-[0.2em] bg-black">
+            {[
+              { label: "WORK", href: "#work" },
+              { label: "SERVICES", href: "#services" },
+              { label: "TOOLS", href: "#tools" },
+              { label: "REVIEWS", href: "#testimonials" },
+              { label: "CONTACT", href: "#contact" },
+            ].map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                className="text-white/70 active:text-[#E9C46A]"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        )}
       </header>
 
       {/* ---------- HERO ---------- */}
@@ -37,7 +135,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 pt-20 md:pt-28 pb-0 px-5 text-center">
-          <h1 className="font-condensed-head text-[52px] leading-[0.95] md:text-8xl tracking-wide">
+          <h1 className="font-condensed-head text-[13vw] leading-[0.95] md:text-8xl tracking-wide text-balance">
             CAPTURING MOMENTS
             <br />
             <span className="text-white/50">THAT LAST FOREVER...</span>
@@ -55,7 +153,7 @@ export default function Home() {
                 View My Work
             </a>
             <a
-              href="#"
+              href="#contact"
               className="inline-block border border-white/40 text-white text-[14px] font-semibold tracking-wide px-10 py-4 rounded-[3px] [@media(hover:hover)]:hover:bg-[#E9C46A]/10 [@media(hover:hover)]:hover:border-[#E9C46A]/60 [@media(hover:hover)]:hover:text-amber-100 transition-colors"
             >
               Book a Session
@@ -200,10 +298,10 @@ export default function Home() {
       </section>
 
       {/* ---------- ABOUT ---------- */}
-      <section id="about" className="bg-black px-5 md:px-8 py-12 md:py-16 overflow-hidden">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 items-center">
-          {/* LEFT — text, reference editorial style, same content */}
-          <div className="text-left">
+      <section id="about" data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16 overflow-hidden">
+        <div className="max-w-3xl mx-auto">
+          {/* text, reference editorial style, same content */}
+          <div className="text-center">
             <p className="font-serif italic text-2xl md:text-3xl font-light tracking-wide text-[#e8ded0]">
               About
             </p>
@@ -212,7 +310,7 @@ export default function Home() {
               <br />
               P.V.
             </h2>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-6 flex items-center justify-center gap-3">
               <span className="text-[#e8ded0]/70 text-sm">✦</span>
               <span className="h-px w-40 bg-white/20" />
             </div>
@@ -222,7 +320,7 @@ export default function Home() {
             <p className="mt-4 font-serif italic text-lg md:text-xl font-light text-white/80">
               “Turning ideas, moments, and perspectives into visual stories.”
             </p>
-            <div className="mt-6 max-w-xl space-y-5 text-[13px] md:text-sm font-light leading-relaxed text-white/60">
+            <div className="mt-6 max-w-xl mx-auto space-y-5 text-[13px] md:text-sm font-light leading-relaxed text-white/60">
               <p>
                 I’m Abhijith, a visual creative from Kannur with a passion for
                 photography, design, and storytelling.
@@ -247,33 +345,16 @@ export default function Home() {
               Abhijith
             </p>
           </div>
-
-          {/* RIGHT — arch portrait with beige backdrop + badge */}
-          <div className="relative mx-auto w-full max-w-[420px]">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-[420px] w-[420px] md:h-[520px] md:w-[520px] rounded-full bg-[#c9b8a3]/25" />
-            </div>
-            <div className="relative mx-auto h-[420px] w-[280px] md:h-[520px] md:w-[340px] overflow-hidden rounded-t-full rounded-b-2xl border border-dashed border-white/20 bg-black">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-white/25 text-white/40">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                    <path d="M12 5v14M5 12h14" strokeLinecap="round" />
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div className="absolute bottom-6 right-2 md:right-0 h-20 w-20 rounded-full bg-black border border-white/20 flex items-center justify-center">
-              <svg viewBox="0 0 100 100" className="h-16 w-16 animate-[spin_12s_linear_infinite]">
-                <defs>
-                  <path id="about-badge-circle" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0" />
-                </defs>
-                <text className="fill-white/70" style={{ fontSize: "11px", letterSpacing: "2px" }}>
-                  <textPath href="#about-badge-circle">
-                    ABOUT · ABHIJITH · PHOTOGRAPHY ·
-                  </textPath>
-                </text>
-              </svg>
-              <span className="absolute text-white/80 text-sm">✦</span>
+          <div className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/60 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/60 [@media(hover:hover)]:hover:shadow-[0_0_36px_rgba(212,175,55,0.55)] active:border-[#D4AF37]/60">
+            <div className="relative h-[300px] md:h-[420px]">
+              <Image
+                src="/about-camera.jpg.jpg"
+                alt="Abhijith holding his camera"
+                fill
+                quality={85}
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 896px"
+              />
             </div>
           </div>
         </div>
@@ -293,7 +374,7 @@ export default function Home() {
       </section>
 
       {/* ---------- SERVICES ---------- */}
-      <section id="services" className="bg-black px-5 md:px-8 py-12 md:py-16">
+      <section id="services" data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide text-center">
             SERVICES
@@ -336,7 +417,7 @@ export default function Home() {
         </div>
       </section>
       {/* ---------- FAVORITE TOOLS ---------- */}
-      <section id="tools" className="bg-black px-5 md:px-8 py-12 md:py-16">
+      <section id="tools" data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-5xl mx-auto text-center">
           <p className="text-[12px] font-light tracking-[0.25em] text-[#E9C46A]">
             ✦ My Favorite Tools
@@ -377,7 +458,7 @@ export default function Home() {
         </div>
       </section>
       {/* ---------- EXPLORE MY WORK ---------- */}
-      <section id="work" className="bg-black px-5 md:px-8 py-12 md:py-16">
+      <section id="work" data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide text-center">
             EXPLORE MY WORK
@@ -396,7 +477,7 @@ export default function Home() {
                 className="group flex items-center justify-between border-b border-white/10 py-6 md:py-8 px-2 [@media(hover:hover)]:hover:bg-[#E9C46A]/[0.05] transition-colors"
               >
                 <span className="flex items-center gap-4 md:gap-6">
-                  <span className="font-serif text-6xl md:text-8xl font-light italic leading-none text-white/70 transition-colors group-hover:text-[#E9C46A]">
+                  <span className="font-serif text-5xl sm:text-6xl md:text-8xl font-light italic leading-none text-white/70 transition-colors group-hover:text-[#E9C46A]">
                     0{i + 1}
                   </span>
                   <span className="font-thin-head text-2xl md:text-4xl font-extralight tracking-wide text-white/70 group-hover:text-[#E9C46A] transition-colors">
@@ -409,25 +490,27 @@ export default function Home() {
         </div>
       </section>
       {/* ---------- TESTIMONIALS ---------- */}
-      <section id="testimonials" className="bg-black px-5 md:px-8 py-12 md:py-16">
+      <section id="testimonials" data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide text-center">
             TESTIMONIALS
           </h2>
           {/* stats + client strip like reference */}
           <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-8 rounded-2xl border border-white/10 bg-white/[0.03] px-8 md:px-12 py-8">
-            <div className="flex items-center gap-10 md:gap-14">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-8 md:gap-14">
               {[
-                { label: "Weddings", value: "200+" },
-                { label: "Portraits", value: "350+" },
-                { label: "Events", value: "150+" },
-              ].map(({ label, value }) => (
+                { label: "Weddings", end: 200 },
+                { label: "Portraits", end: 350 },
+                { label: "Events", end: 150 },
+              ].map(({ label, end }) => (
                 <div key={label} className="text-left">
                   <p className="text-[11px] font-light tracking-widest text-white/40">
                     {label}
                   </p>
                   <p className="mt-1 text-3xl md:text-4xl font-bold tracking-tight text-white">
-                    {value}
+                    <span data-countup={end} data-suffix="+">
+                      0+
+                    </span>
                   </p>
                 </div>
               ))}
@@ -466,47 +549,88 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {[
-              {
-                quote: "Abhijith captured our wedding beautifully. Every candid felt natural and timeless.",
-                name: "Wedding Client",
-              },
-              {
-                quote: "The portraits were stunning. He made us feel comfortable and the results speak for themselves.",
-                name: "Portrait Client",
-              },
-              {
-                quote: "Professional, punctual and creative. Our event coverage was perfect from start to finish.",
-                name: "Event Client",
-              },
-            ].map(({ quote, name }) => (
-              <div
-                key={name}
-                className="group rounded-xl border border-white/10 bg-white/[0.02] p-8 transition-all duration-300 [@media(hover:hover)]:hover:-translate-y-2 [@media(hover:hover)]:hover:scale-[1.03] [@media(hover:hover)]:hover:border-[#D4AF37]/50 [@media(hover:hover)]:hover:bg-[#D4AF37]/[0.07] [@media(hover:hover)]:hover:shadow-[0_10px_34px_rgba(212,175,55,0.5)] active:-translate-y-2 active:scale-[1.03] active:border-[#D4AF37]/50 active:bg-[#D4AF37]/[0.07] cursor-pointer"
-              >
-                <p className="font-light leading-relaxed text-white/70 transition-colors duration-300 group-hover:text-[#E9C46A] group-active:text-white">
-                  “{quote}”
-                </p>
-                <p className="mt-6 text-sm font-light tracking-widest text-white/40 transition-colors duration-300 group-hover:text-[#E9C46A]/70 group-active:text-white/70">
-                  — {name}
-                </p>
-              </div>
-            ))}
+          <div className="mt-12 overflow-hidden marquee-mask">
+            <div className="flex w-max gap-4 md:gap-6 animate-marquee [@media(hover:hover)]:hover:[animation-play-state:paused]">
+              {[
+                {
+                  quote: "Abhijith captured our wedding beautifully. Every candid felt natural and timeless.",
+                  name: "Ebin Sebastan",
+                },
+                {
+                  quote: "The portraits were stunning. He made us feel comfortable and the results speak for themselves.",
+                  name: "Anu",
+                },
+                {
+                  quote: "Professional, punctual and creative. Our event coverage was perfect from start to finish.",
+                  name: "Vinu Antony",
+                },
+                {
+                  quote: "The pre-wedding shoot was magical. Every frame looks like a movie still.",
+                  name: "Sneha & Arjun",
+                },
+                {
+                  quote: "Great eye for detail and lighting. Our family portraits are treasures now.",
+                  name: "Rahul Menon",
+                },
+                {
+                  quote: "Friendly, patient and truly talented. Highly recommended for any occasion.",
+                  name: "Divya Nair",
+                },
+                {
+                  quote: "Abhijith captured our wedding beautifully. Every candid felt natural and timeless.",
+                  name: "Ebin Sebastan",
+                },
+                {
+                  quote: "The portraits were stunning. He made us feel comfortable and the results speak for themselves.",
+                  name: "Anu",
+                },
+                {
+                  quote: "Professional, punctual and creative. Our event coverage was perfect from start to finish.",
+                  name: "Vinu Antony",
+                },
+                {
+                  quote: "The pre-wedding shoot was magical. Every frame looks like a movie still.",
+                  name: "Sneha & Arjun",
+                },
+                {
+                  quote: "Great eye for detail and lighting. Our family portraits are treasures now.",
+                  name: "Rahul Menon",
+                },
+                {
+                  quote: "Friendly, patient and truly talented. Highly recommended for any occasion.",
+                  name: "Divya Nair",
+                },
+              ].map(({ quote, name }, i) => (
+                <div
+                  key={`${name}-${i}`}
+                  className="w-[300px] md:w-[360px] shrink-0 rounded-xl border border-white/10 bg-white/[0.02] p-8 transition-colors duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/50 [@media(hover:hover)]:hover:bg-[#D4AF37]/[0.07]"
+                >
+                  <p className="font-light leading-relaxed text-white/70">
+                    “{quote}”
+                  </p>
+                  <p className="mt-6 text-sm font-light tracking-widest text-white/40">
+                    — {name}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ---------- LET'S WORK TOGETHER ---------- */}
-      <section className="bg-black px-5 md:px-8 py-12 md:py-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-thin-head text-4xl md:text-6xl font-extralight tracking-wide">
+      <section data-reveal className="bg-black px-5 md:px-8 py-12 md:py-16">
+        <div className="max-w-5xl mx-auto rounded-[2rem] border border-[#D4AF37]/40 bg-gradient-to-b from-[#D4AF37]/[0.12] via-white/[0.03] to-transparent px-6 md:px-12 py-14 md:py-20 text-center shadow-[0_0_60px_rgba(212,175,55,0.25)]">
+          <p className="text-[12px] font-light tracking-[0.25em] text-[#E9C46A]">
+            ✦ Have An Idea In Mind
+          </p>
+          <h2 className="mt-3 font-thin-head text-4xl md:text-6xl font-extralight tracking-wide">
             LET&apos;S WORK TOGETHER
           </h2>
           <div className="mt-10">
             <a
               href="#contact"
-              className="inline-block bg-white text-black text-[14px] font-semibold tracking-wide px-10 py-4 rounded-[3px] [@media(hover:hover)]:hover:bg-[#D4AF37] transition-colors"
+              className="inline-block bg-[#D4AF37] text-black text-[14px] font-semibold tracking-wide px-10 py-4 rounded-[3px] [@media(hover:hover)]:hover:bg-[#E9C46A] transition-colors shadow-[0_0_32px_rgba(212,175,55,0.45)]"
             >
               SEND AN INQUIRY
             </a>
@@ -515,38 +639,94 @@ export default function Home() {
       </section>
 
       {/* ---------- CONTACT ---------- */}
-      <section id="contact" className="bg-black px-5 md:px-8 py-12 md:py-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-[12px] font-light tracking-[0.25em] text-[#E9C46A]">
-            ✦ Get In Touch
-          </p>
-          <h2 className="mt-3 font-thin-head text-4xl md:text-6xl font-extralight tracking-wide">
-            CONTACT
-          </h2>
-          <div className="mt-10 md:mt-12 flex flex-col gap-4">
-            {[
-              { label: "Email", value: "hello@example.com", href: "mailto:hello@example.com" },
-              { label: "Phone", value: "+91 00000 00000", href: "tel:+910000000000" },
-              { label: "WhatsApp", value: "Chat with me", href: "#" },
-              { label: "Instagram", value: "Follow my work", href: "#" },
-            ].map(({ label, value, href }) => (
-              <a
-                key={label}
-                href={href}
-                className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-6 md:px-8 py-5 transition-all duration-300 [@media(hover:hover)]:hover:border-[#D4AF37]/50 [@media(hover:hover)]:hover:bg-[#D4AF37]/[0.07] active:border-[#D4AF37]/50"
+      <section id="contact" data-reveal className="relative bg-black px-5 md:px-8 py-12 md:py-16 overflow-hidden">
+        {/* eclipse glow */}
+        <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-48 w-[80%] max-w-3xl -translate-x-1/2 rounded-[100%] bg-gradient-to-r from-[#D4AF37]/50 via-white/40 to-sky-400/50 blur-2xl" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[80%] max-w-3xl -translate-x-1/2 rounded-[100%] bg-gradient-to-r from-sky-400/40 via-white/30 to-[#D4AF37]/50 blur-2xl" />
+        <div className="relative max-w-5xl mx-auto rounded-2xl border border-white/10 bg-[#0b0b0b] px-6 md:px-12 py-10 md:py-14 shadow-[0_0_60px_rgba(212,175,55,0.15)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
+            {/* LEFT — form */}
+            <form onSubmit={handleContactSubmit} className="flex flex-col gap-7">
+              <input
+                type="text"
+                required
+                value={contactName}
+                onChange={(e) => setContactName(e.target.value)}
+                placeholder="Your Name"
+                className="bg-transparent border-b border-white/20 focus:border-[#D4AF37] outline-none py-3 text-sm font-light tracking-wide text-white placeholder:text-white/40 transition-colors"
+              />
+              <input
+                type="email"
+                required
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                placeholder="Your Email"
+                className="bg-transparent border-b border-white/20 focus:border-[#D4AF37] outline-none py-3 text-sm font-light tracking-wide text-white placeholder:text-white/40 transition-colors"
+              />
+              <textarea
+                required
+                rows={3}
+                value={contactMessage}
+                onChange={(e) => setContactMessage(e.target.value)}
+                placeholder="Share your thoughts"
+                className="bg-transparent border-b border-white/20 focus:border-[#D4AF37] outline-none py-3 text-sm font-light tracking-wide text-white placeholder:text-white/40 transition-colors resize-none"
+              />
+              <button
+                type="submit"
+                className="mt-2 self-start bg-white text-black text-[12px] font-semibold tracking-[0.2em] px-8 py-4 rounded-[3px] shadow-[0_0_28px_rgba(255,255,255,0.35)] [@media(hover:hover)]:hover:bg-[#D4AF37] [@media(hover:hover)]:hover:shadow-[0_0_32px_rgba(212,175,55,0.55)] active:bg-[#D4AF37] transition-all"
               >
-                <span className="text-[12px] font-light tracking-[0.25em] text-white/40 group-hover:text-[#E9C46A] transition-colors">
-                  {label.toUpperCase()}
+                SHARE YOUR FEEDBACK
+              </button>
+            </form>
+            {/* RIGHT — heading */}
+            <div className="text-center md:text-left">
+              <h2
+                className="font-didone-head text-5xl md:text-7xl font-normal leading-[1.05]"
+                style={{
+                  textShadow:
+                    "-2px 0 0 rgba(255,0,80,0.55), 2px 0 0 rgba(0,180,255,0.55)",
+                }}
+              >
+                Contact
+                <br />
+                <span className="inline-block border-b-2 border-[#D4AF37] pb-1">
+                  Us
                 </span>
-                <span className="text-sm md:text-base font-light tracking-wide text-white/80 group-hover:text-white transition-colors">
-                  {value}
-                </span>
-              </a>
-            ))}
+              </h2>
+              <p className="mt-6 text-sm font-light leading-relaxed text-white/50 max-w-xs mx-auto md:mx-0">
+                It is very important for us to keep in touch with you, so we
+                are always ready to answer any question that interests you.
+                Shoot!
+              </p>
+            </div>
           </div>
-          <p className="mt-8 text-sm font-light tracking-widest text-white/40">
-            Kannur, Kerala
-          </p>
+          {/* bottom info bar */}
+          <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6 text-center">
+            <div>
+              <p className="text-[11px] font-light tracking-[0.25em] text-white/35">
+                PHONE NO
+              </p>
+              <a href="tel:+919747164982" className="mt-1 block text-sm font-light text-white/70 hover:text-[#E9C46A] transition-colors">
+                +91 97471 64982
+              </a>
+            </div>
+            <div>
+              <p className="text-[11px] font-light tracking-[0.25em] text-white/35">
+                ADDRESS
+              </p>
+              <p className="mt-1 text-sm font-light text-white/70">
+                Kannur, Kerala
+              </p>
+            </div>
+            <div>
+              <p className="text-[11px] font-light tracking-[0.25em] text-white/35">
+                EMAIL
+              </p>
+              <a href="mailto:hello@example.com" className="mt-1 block text-sm font-light text-white/70 hover:text-[#E9C46A] transition-colors">
+                hello@example.com
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -554,11 +734,11 @@ export default function Home() {
       <footer className="bg-black border-t border-white/10 px-5 md:px-8 py-12">
         <div className="max-w-5xl mx-auto flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-6 text-sm font-light tracking-widest text-white/60">
-            <a href="#" className="hover:text-[#E9C46A] transition-colors">
+            <a href="https://www.instagram.com/photojoint_creations?stkn=cG5qN2ducTZwMG0=" target="_blank" rel="noopener noreferrer" className="hover:text-[#E9C46A] transition-colors">
               Instagram
             </a>
             <span className="text-white/20">|</span>
-            <a href="#" className="hover:text-[#E9C46A] transition-colors">
+            <a href="https://wa.me/919747164982" target="_blank" rel="noopener noreferrer" className="hover:text-[#E9C46A] transition-colors">
               WhatsApp
             </a>
           </div>
@@ -570,7 +750,7 @@ export default function Home() {
               Email
             </a>
             <span className="text-white/20">|</span>
-            <a href="tel:+910000000000" className="hover:text-[#E9C46A] transition-colors">
+            <a href="tel:+919747164982" className="hover:text-[#E9C46A] transition-colors">
               Phone
             </a>
             <span className="text-white/20">|</span>
